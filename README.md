@@ -1,9 +1,8 @@
 # sqlinjection
 Exploiting SQL Injection vulnerability
 
-### NAME: ESWANTH KUMAR K 
-### REG NO: 212223040046
-
+### NAME: SHASHANK 
+### REG NO: 2122230205
 # AIM:
 To exploit SQL Injection vulnerability using Multidae web application in Metasploitable2
 
